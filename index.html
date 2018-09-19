@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>零食商贩-管理系统</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link href="css/base.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/semantic-ui/2.3.1/semantic.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <base href="/">
+</head>
+<body ng-cloak="">
+<header init-navbar>
+    <div class="h-banner">
+        <ul class="tools">
+            <li><a href="javascript:;" ng-click="logout();">退出登陆</a></li>
+        </ul>
+    </div>
+    <img class="logo" src="./imgs/logo-admin.png">
+</header>
+<div class="container-fluid-sdx">
+    <div class="left-menu">
+        <ul class="menu-ul">
+            <li ng-repeat="v in active.nav.list">
+                <a class="menu-ul-a" href="javascript:;" ng-click="toggle=!toggle">
+                    {{v.name}} <span class="arrow"></span>
+                </a>
+                <ul class="menu-ul-ul">
+                    <li ng-class="{active:active.sub_navid==l.id}" data-id="{{l.id}}"
+                        ng-repeat="l in v.list" ng-show="l.hasPermission && toggle">
+                        <a class="menu-ul-second" ui-sref="{{l.href}}">
+                            {{l.text}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container content" ui-view="">
+    </div>
+    <loading></loading>
+</div>
+<script data-main="./js/main.js?v=20180919" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+</body>
+</html>

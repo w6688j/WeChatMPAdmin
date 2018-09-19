@@ -1,0 +1,53 @@
+<div class="ui form">
+    <div class="six fields">
+        <div class="field">
+            <label>订单状态：</label>
+            <select class="ui dropdown" ng-model="screen.status">
+                <option value="9">所有</option>
+                <option value="1">正常入住</option>
+                <option value="2">取消入住</option>
+                <option value="0">已经结账</option>
+            </select>
+        </div>
+    </div>
+</div>
+<table class="ui table">
+    <thead>
+    <tr>
+        <th class="one wide">ID</th>
+        <th class="two wide">门店</th>
+        <th class="two wide">床位</th>
+        <th class="one wide">客户</th>
+        <th class="four wide">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-show="is_loading>0 && loading">
+        <td colspan="11">
+            <div class="ui active centered inline loader"></div>
+        </td>
+    </tr>
+    <tr ng-repeat="v in list">
+        <td>
+            {{v.checkin_id}}
+        </td>
+        <td>
+            {{v.store_name}}
+        </td>
+        <td>{{v.room_no+'-'+v.bed_no}}</td>
+        <td>{{v.customer_name | default:'-'}}</td>
+        <td>
+            <i class="icon large" ng-class="{'1':'blue male','0':'red female','2':'genderless'}[v.sex]"></i>
+        </td>
+        <td>{{v.start_day}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="11">
+            <span ng-hide="total_count">暂无数据</span>
+            <pagination total="total_count"></pagination>
+        </th>
+    </tr>
+    </tfoot>
+</table>

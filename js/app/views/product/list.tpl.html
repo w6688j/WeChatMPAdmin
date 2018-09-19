@@ -1,0 +1,110 @@
+<div class="ui form">
+    <div class="six fields">
+        <div class="field">
+            <label>入住单状态：</label>
+            <select class="ui dropdown" ng-model="screen.status">
+                <option value="9">所有</option>
+                <option value="1">正常入住</option>
+                <option value="2">取消入住</option>
+                <option value="0">已经结账</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>门店：</label>
+            <select class="ui dropdown" ng-model="screen.store_id">
+                <option value="0">所有</option>
+                <option value="{{s.id}}" ng-repeat="s in store_list">{{s.text}}</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>房型：</label>
+            <select class="ui dropdown" ng-model="screen.room_type">
+                <option value="0">所有</option>
+                <option value="{{r.id}}" ng-repeat="r in room_type">{{r.text}}</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>性别：</label>
+            <select class="ui dropdown" ng-model="screen.sex">
+                <option value="9">所有</option>
+                <option value="1">男</option>
+                <option value="0">女</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>ID/客户名称：</label>
+            <div class="ui icon input">
+                <input type="text" placeholder="ID/客户名称" ng-model="screen.keyword">
+                <i class="search icon link icon" ng-click="changeScreen();"></i>
+            </div>
+
+        </div>
+        <div class="field">
+            <label for="">&nbsp;</label>
+            <button class="ui button green" data-content="添加入住单" ng-click="add();">
+                <i class="icon plus"></i>
+                添加
+            </button>
+            <button class="ui button facebook" ng-hide="true" data-content="批量导入入住数据" ui-popup="" ng-click="import();">
+                <i class="icon sign in"></i>导入
+            </button>
+        </div>
+    </div>
+</div>
+<table class="ui table">
+    <thead>
+    <tr>
+        <th class="one wide">ID</th>
+        <th class="two wide">门店</th>
+        <th class="two wide">床位</th>
+        <th class="one wide">客户</th>
+        <th class="one wide">性别</th>
+        <th class="two wide">入住时间</th>
+        <th class="two wide">预计离开</th>
+        <th class="two wide">入住天数</th>
+        <th class="one wide">入库时间</th>
+        <th class="one wide">状态</th>
+        <th class="four wide">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-show="is_loading>0 && loading">
+        <td colspan="11">
+            <div class="ui active centered inline loader"></div>
+        </td>
+    </tr>
+    <tr ng-repeat="v in list">
+        <td>
+            {{v.checkin_id}}
+        </td>
+        <td>
+            {{v.store_name}}
+        </td>
+        <td>{{v.room_no+'-'+v.bed_no}}</td>
+        <td>{{v.customer_name | default:'-'}}</td>
+        <td>
+            <i class="icon large" ng-class="{'1':'blue male','0':'red female','2':'genderless'}[v.sex]"></i>
+        </td>
+        <td>{{v.start_day}}</td>
+        <td>{{v.end_day}}</td>
+        <td>{{v.live_days}}</td>
+        <td>{{v.add_time}}</td>
+        <td>
+            <i class="large icon"
+               ng-class="{'1':'blue hourglass full','2':'red remove','0':'green checkmark'}[v.checkin_status]"></i>
+            {{v.checkin_status == 1 ? '入住中' : (v.checkin_status == 2 ? '已取消' : '已结账')}}
+        </td>
+        <td>
+
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="11">
+            <span ng-hide="total_count">暂无数据</span>
+            <pagination total="total_count"></pagination>
+        </th>
+    </tr>
+    </tfoot>
+</table>
